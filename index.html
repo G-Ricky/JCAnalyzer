@@ -11,11 +11,17 @@
 					<div class="thirteen wide column">
 						<div class="row">
 							<div class="sixteen wide column">
-								<textarea id="ccode">( clone_flags + (CLONE_PTRACE = 20) / (100 * 50) ) * 5 - trace</textarea>
+<textarea id="ccode">
+a = 2,b = 3;
+a++;
+i[1];
+a(2);
+a.b-&gt;d;
+a-&gt;c-&gt;d;</textarea>
 							</div>
 						</div>
 						<div class="row"><textarea id="grammar"></textarea></div>
-						<div class="row"><p></p></div>
+						<div class="row"><pre id="tree" style="overflow: scroll;"></pre></div>
 					</div>
 					<div class="three wide column">
 						<img>
@@ -25,6 +31,7 @@
 		</div>
 		<!--script src="js/vendor/semantic.min.js"></script-->
 		<script src="js/require.min.js" data-main="js/main"></script>
+		<script src="js/viz.js"></script>
 	</body>
 </html>
 <!--script src="js/Test.js"></script-->

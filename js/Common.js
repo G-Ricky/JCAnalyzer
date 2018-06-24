@@ -11,7 +11,7 @@ define("Common", ["lodash", "jquery"], function(_, $) {
 	*/
 	Common.clone = function(obj) {
 		if(typeof obj !== "object") {
-			return object;
+			return obj;
 		}
 		
 		var ret = Array.isArray(obj)?[]:{};

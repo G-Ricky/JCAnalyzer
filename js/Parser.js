@@ -28,7 +28,7 @@ define(["Lexer", "Common", "C"], function(Lexer, Common, C) {
 		};
 		var stack = [node, root];
 		do {
-			_debug(stack);
+			//_debug(stack);
 			node = stack.pop();
 			if(node.name === "EMPTY") {
 				continue;
@@ -57,6 +57,7 @@ define(["Lexer", "Common", "C"], function(Lexer, Common, C) {
 							"id": node_id++,
 							"name": p.right[i].name,
 							"symbol": p.right[i],
+							//"content": ,
 							"nodes": []
 						};
 						//output += "\"" + node.id + " " + node.symbol.description + "\" -> \"" + new_node.id + " " + new_node.symbol.description + "\" [label=\"\"];" + "\n";
@@ -64,7 +65,7 @@ define(["Lexer", "Common", "C"], function(Lexer, Common, C) {
 						stack.push(new_node);
 					}
 				}else{
-					_error();
+					_error("Expected " + node.name + "," + token.name + " given");
 				}
 			}
 			//console.log(JSON.stringify(stack));
@@ -81,6 +82,11 @@ define(["Lexer", "Common", "C"], function(Lexer, Common, C) {
 		}
 		console.log(out);
 		return;
+	}
+	
+	function _error(msg) {
+		msg = msg || "";
+		throw new Error("Syntax error: " + msg);
 	}
 	
 	Parser.prototype.getSyntaxTree = function() {
@@ -124,7 +130,127 @@ define(["Lexer", "Common", "C"], function(Lexer, Common, C) {
 		do{
 			token = _lexer.getNextToken();
 		}while(!_lexer.eof() && token.type === C.LEXER.SPACE);
+		token = _convert_token(token);
 		return token;
+	}
+	
+	function _convert_token(token) {
+		token = Common.clone(token);
+		switch(token.type) {
+			case C.LEXER.IDENTIFIER:
+				return _convert_identifier(token);
+			case C.LEXER.DECIMAL:
+			case C.LEXER.OCTAL:
+			case C.LEXER.HEXADECIMAL:
+				token.type = C.PARSER.INTEGER;
+				return token;
+			default:
+				return token;
+		}
+	}
+	
+	function _convert_identifier(token) {
+		token = Common.clone(token);
+		switch(token.content) {
+		case "auto":
+			token.type = C.PARSER.KW_AUTO;
+			return token;
+		case "break":
+			token.type = C.PARSER.KW_BREAK;
+			return token;
+		case "case":
+			token.type = C.PARSER.KW_CASE;
+			return token;
+		case "char":
+			token.type = C.PARSER.KW_CHAR;
+			return token;
+		case "const":
+			token.type = C.PARSER.KW_CONST;
+			return token;
+		case "continue":
+			token.type = C.PARSER.KW_CONTINUE;
+			return token;
+		case "default":
+			token.type = C.PARSER.KW_DEFAULT;
+			return token;
+		case "do":
+			token.type = C.PARSER.KW_DO;
+			return token;
+		case "double":
+			token.type = C.PARSER.KW_DOUBLE;
+			return token;
+		case "else":
+			token.type = C.PARSER.KW_ELSE;
+			return token;
+		case "enum":
+			token.type = C.PARSER.KW_ENUM;
+			return token;
+		case "extern":
+			token.type = C.PARSER.KW_EXTERN;
+			return token;
+		case "float":
+			token.type = C.PARSER.KW_FLOAT;
+			return token;
+		case "for":
+			token.type = C.PARSER.KW_FOR;
+			return token;
+		case "goto":
+			token.type = C.PARSER.KW_GOTO;
+			return token;
+		case "if":
+			token.type = C.PARSER.KW_IF;
+			return token;
+		case "int":
+			token.type = C.PARSER.KW_INT;
+			return token;
+		case "long":
+			token.type = C.PARSER.KW_LONG;
+			return token;
+		case "register":
+			token.type = C.PARSER.KW_REGISTER;
+			return token;
+		case "return":
+			token.type = C.PARSER.KW_RETURN;
+			return token;
+		case "short":
+			token.type = C.PARSER.KW_SHORT;
+			return token;
+		case "signed":
+			token.type = C.PARSER.KW_SIGNED;
+			return token;
+		case "sizeof":
+			token.type = C.PARSER.KW_SIZEOF;
+			return token;
+		case "static":
+			token.type = C.PARSER.KW_STATIC;
+			return token;
+		case "struct":
+			token.type = C.PARSER.KW_STRUCT;
+			return token;
+		case "switch":
+			token.type = C.PARSER.KW_SWITCH;
+			return token;
+		case "typedef":
+			token.type = C.PARSER.KW_TYPEDEF;
+			return token;
+		case "union":
+			token.type = C.PARSER.KW_UNION;
+			return token;
+		case "unsigned":
+			token.type = C.PARSER.KW_UNSIGNED;
+			return token;
+		case "void":
+			token.type = C.PARSER.KW_VOID;
+			return token;
+		case "volatile":
+			token.type = C.PARSER.KW_VOLATILE;
+			return token;
+		case "while":
+			token.type = C.PARSER.KW_WHILE;
+			return token;
+		default:
+			return token;
+		}
 	}
 	
 	return Parser;

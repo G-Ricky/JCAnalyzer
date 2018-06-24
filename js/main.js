@@ -165,7 +165,7 @@ require(["MartixBuilder"], function(MartixBuilder, $) {
 */
 
 
-require(["GrammarBuilder", "ProductionGraphBuilder", "LLTableBuilder", "C", "jquery", "Lexer", "Parser"], function(GrammarBuilder, ProductionGraphBuilder, LLTableBuilder, C, $, Lexer, Parser) {
+require(["GrammarBuilder", "ProductionGraphBuilder", "LLTableBuilder", "C", "jquery", "Lexer", "NodeConverter", "Parser"], function(GrammarBuilder, ProductionGraphBuilder, LLTableBuilder, C, $, Lexer, NodeConverter, Parser) {
 	/*
 	var text = "\
 NONTERMINAL E0\n\
@@ -324,5 +324,18 @@ F0 -> identifier\n\
 		"node [shape = circle];\n" +
 		dot_link +
 		"}";
-	console.log(dot_text);
+	//console.log(dot_text);
+	//var nc = new NodeConverter(syntax_tree);
+	//var new_tree = nc.getSyntaxTree();
+	//console.log(new_tree);
+	
+	
+	
+	
+	
+	
+	
+	var result = Viz(dot_text, 'svg', 'dot');
+	document.getElementById("tree").innerHTML = result;
+	
 });

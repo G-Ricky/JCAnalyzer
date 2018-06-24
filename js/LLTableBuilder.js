@@ -373,6 +373,8 @@ outer:
 						if(prev_node.is_term) { continue; }
 						if(!curr_node.is_term && !curr_node.has_empty) {
 							last_non_empty = j;
+						}else if(curr_node.is_term) {
+							last_non_empty = -1;
 						}
 						first = first_collection[curr_node.name];
 						has_changed = _merge_follow(follow_collection[prev_node.name], first) || has_changed;
